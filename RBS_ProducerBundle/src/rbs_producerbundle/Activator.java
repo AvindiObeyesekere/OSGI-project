@@ -2,20 +2,19 @@ package rbs_producerbundle;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import rbs_producerbundle.service.RoomBookingService;
-import rbs_producerbundle.impl.RoomBookingServiceImpl;
 
 public class Activator implements BundleActivator {
-    private static BundleContext context;
+    private RoomBookingServiceImpl service;
 
-    public void start(BundleContext bundleContext) throws Exception {
-        RoomBookingService service = new RoomBookingServiceImpl();
-        bundleContext.registerService(RoomBookingService.class.getName(), service, null);
-        System.out.println("Room Booking Service Started.");
+    @Override
+    public void start(BundleContext context) throws Exception {
+        System.out.println("[RBS Producer] Starting Room Booking Service...");
+        service = new RoomBookingServiceImpl();
+        context.registerService(RoomBookingService.class.getName(), service, null);
     }
 
-    public void stop(BundleContext bundleContext) throws Exception {
-        System.out.println("Room Booking Service Stopped.");
+    @Override
+    public void stop(BundleContext context) throws Exception {
+        System.out.println("[RBS Producer] Stopping Room Booking Service...");
     }
-    //to book a room
 }
