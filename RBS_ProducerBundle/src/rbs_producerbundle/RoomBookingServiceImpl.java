@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class RoomBookingServiceImpl implements RoomBookingService {
     private final HashMap<Integer, Room> bookedRooms = new HashMap<>();
+    private final HashMap<Integer, Integer> bookingPrices = new HashMap<>();
     private static int roomIdCounter = 1; // Auto-incrementing Room ID
 
     public RoomBookingServiceImpl() {
@@ -44,6 +45,16 @@ public class RoomBookingServiceImpl implements RoomBookingService {
             return -1;  // Return -1 if no rooms are booked
         }
         return bookedRooms.keySet().stream().max(Integer::compare).orElse(-1);
+    }
+    
+    // ✅ Store total price when received from Consumer
+    public void setTotalPrice(int roomId, int price) {
+        bookingPrices.put(roomId, price);
+    }
+    // ✅ Fetch total price for UI display
+    @Override
+    public int getTotalPrice(int roomId) {
+        return bookingPrices.getOrDefault(roomId, 0);
     }
     
 }

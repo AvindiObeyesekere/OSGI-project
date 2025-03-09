@@ -27,7 +27,7 @@ public class ViewBookingUI {
 
         // Table Setup
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Room ID", "Room No", "Room Type", "People", "Rooms", "Days", "Check-In", "Check-Out"});
+        tableModel.setColumnIdentifiers(new String[]{"Room ID", "Room No", "Room Type", "People", "Rooms", "Days", "Check-In", "Check-Out", "Total Price"});
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -55,15 +55,16 @@ public class ViewBookingUI {
     }
 
     private void loadBookings() {
-        // Clear existing table data
         tableModel.setRowCount(0);
 
         HashMap<Integer, Room> bookings = bookingService.getBookedRooms();
         for (Map.Entry<Integer, Room> entry : bookings.entrySet()) {
             Room room = entry.getValue();
+            int totalPrice = bookingService.getTotalPrice(room.getRoomId()); // ✅ Get total price
             tableModel.addRow(new Object[]{
                     room.getRoomId(), room.getRoomNo(), room.getRoomType(), room.getNoOfPeople(),
-                    room.getNoOfRooms(), room.getNoOfDays(), room.getCheckInDate(), room.getCheckOutDate()
+                    room.getNoOfRooms(), room.getNoOfDays(), room.getCheckInDate(), room.getCheckOutDate(),
+                    "₹" + totalPrice // ✅ Display price in UI
             });
         }
     }

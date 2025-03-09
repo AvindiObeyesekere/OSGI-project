@@ -42,6 +42,17 @@ public class Activator implements BundleActivator {
                                 bookingPrices.put(roomId, totalBookingPrice);
 
                                 System.out.println("[RBS Consumer] ✅ Final Booking Price: ₹" + totalBookingPrice);
+
+                                // ✅ Send total price to Producer to store it
+                                ServiceReference<?> producerRef = context.getServiceReference(RoomBookingService.class.getName());
+                                if (producerRef != null) {
+                                    RoomBookingService producerService = (RoomBookingService) context.getService(producerRef);
+                                    producerService.setTotalPrice(roomId, totalBookingPrice);
+                                    System.out.println("[RBS Consumer] ✅ Sent Total Price to Producer for UI Display.");
+                                } else {
+                                    System.out.println("[RBS Consumer] ❌ Could not send price to Producer.");
+                                }
+
                             } else {
                                 System.out.println("[RBS Consumer] ❌ BillingService is NULL.");
                             }

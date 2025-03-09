@@ -7,4 +7,6 @@ public interface RoomBookingService {
     int getNoOfRooms(int roomId);  
     int getNoOfDays(int roomId);  
     int getLatestRoomId();  // New method to retrieve the latest booked room ID
+    int getTotalPrice(int roomId);
+    void setTotalPrice(int roomId, int totalPrice);
 }
